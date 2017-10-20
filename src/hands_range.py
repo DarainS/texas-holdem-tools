@@ -125,7 +125,7 @@ def reduceHands(fromRange=165,step=5):
     return result[0:length]
 
 def main():
-    ls=(getRangeHands(100))
+    ls=(getRangeHands(90))
     for i in ls:
         print("'"+i['hands']+"'",end=',')
     # reduceHands(fromRange=165)
@@ -134,6 +134,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-c5p2r100=['AA','KK','QQ','JJ','AKs','TT','AKo','AQs','99','AQo','AJs','AJo','ATo','88','A9s','ATs','A8s','77','KQs','A9o','KTs','KQo','A7s','KJs','KJo','A4s','A8o','A7o','A5s','A3s','66','A6s','QJs','KTo','A5o','K9s','A4o','A6o','QTs'
-,'A2s','K8s','A2o','A3o','K9o','55','44','K7s','33','K8o','K4s','K5s','K6s','QTo','Q9s','K7o','QJo','K3s','JTs','K5o','K6o','22','Q9o','J9s','K2s','Q8s','K4o','Q7s','Q6s','K3o','Q5s','JTo','Q8o','K2o','T9s','J8s','Q6o','Q4s'
-,'Q7o','J9o','Q3s','Q5o','T8s','Q2s','J7s','T9o','97s','98s','T7s','87s','76s','J5s','J6s','Q4o','T8o','Q2o','J8o','T6s','98o','Q3o','86s',]
+c5p2r90=['AA','KK','QQ','JJ','AKs','TT','AKo','AQs','AQo','AJs','99','AJo','ATs','88','A8s','A9s','ATo','A7s','KQs','A9o','KJs','A5s','77','A6s','KQo','66','A8o','A4s','KTs','KJo','A3s','A7o','A6o','A2s','A5o','55','KTo','K8s','A3o',
+'44','A4o','A2o','K9s','K9o','K6s','QJs','33','QTs','K8o','QJo','K7o','K5s','QTo','K4s','K7s','JTs','K2s','K3s','Q9s','K5o','22','K6o','K4o','Q8s','K3o','Q9o','J9s','JTo','T9s','Q7s','Q5s','K2o','Q8o','Q6s','J8s','Q4s','J9o'
+,'98s','Q7o','87s','Q6o','J7s','76s','T8s','Q3s','T9o','T7s','Q5o','Q2s','Q4o',]

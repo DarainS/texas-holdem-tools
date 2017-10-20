@@ -112,7 +112,7 @@ class SevenCard():
     def getCardLevelText(self):
         assert self.value>0
         self.level=int(str(self.value)[0])
-        self.levelText=self.levelTable[self.cardLevel]
+        self.levelText=self.levelTable[self.level]
         return self.levelText
 
     def __str__(self):
