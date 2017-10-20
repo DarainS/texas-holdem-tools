@@ -32,8 +32,8 @@ A series Tools for texas hold'em with python.
 
 ## Todo
 
+- [ ] 建立翻后result模型，数据格式为[{level:1,name:高牌,num:10,winNum:6,appearRate:0.1,winRate:0.6},...]
 
-- [ ] 翻后强度
 - [ ] 如何较好的计算一手牌的翻前强度。
 - [ ] 计算对手的range范围
 - [ ] 面对对手的range范围的胜率
