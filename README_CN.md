@@ -7,13 +7,13 @@ A series Tools for texas hold'em with python.
     # install requirement
     git clone https://github.com/DarainS/texas-holdem-tools
     cd ./texas-holdem-tools
-    pip install -r requirement.txt
+    pip3 install -r requirement.txt
 ```
 ```python
     # install mongodb
     # by Docker
     docker pull mongo
-    docker run mongo -p 27017:27017
+    docker run  -p 27017:27017 -d mongo mongo 
 ```
 
 ## Include
