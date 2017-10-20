@@ -6,14 +6,9 @@ import random
 
 class Card():
     
-<<<<<<< HEAD:card.py
-    table={'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'T':10,'J':11,'Q':12,'K':13,'A':14}
-    # s=bidict(table)
-=======
     table2={'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'T':10,'J':11,'Q':12,'K':13,'A':14}
     table=bidict(table2)
     tags=['h','d','c','s']
->>>>>>> dev:src/card.py
 
     def __init__(self,num,tag):
         self.num=num
