@@ -7,7 +7,7 @@ A series Tools for texas hold'em with python.
     # install requirement
     git clone https://github.com/DarainS/texas-holdem-tools
     cd ./texas-holdem-tools
-    pip install -r requirement.txt
+    python install -r requirement.txt
 ```
 ```python
     # install mongodb
