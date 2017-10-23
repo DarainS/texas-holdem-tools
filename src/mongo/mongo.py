@@ -10,8 +10,12 @@ db=client.poker
 
 dbnameTemplete='card%d_player%d_with_%s_range'
 
-def generateDB(toDealNum=5,playerNum=2,rangee='169'):
+def generateDB(toDealNum=5,playerNum=2,rangee='169',prefix='',postfix=''):
     name=dbnameTemplete%(toDealNum,playerNum,rangee)
+    if len(prefix)>0:
+        name=prefix+'_'+name
+    if len(postfix)>0:
+        name=name+'_'+postfix
     return db[name]
 
 def getSortedData(db,key='winRate',des=-1):

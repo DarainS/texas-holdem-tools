@@ -2,7 +2,6 @@
 # -*- coding=utf-8 -*-
 
 from decimal import Decimal
-from card import HandsCard
 
 class Player():
 

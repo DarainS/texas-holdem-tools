@@ -79,7 +79,7 @@ class HandsCard():
         return str(self.hands[0])+str(self.hands[1])
 
     def __repr__(self):
-        return str(self.hands[0])+str(self.hands[1])
+        return self.simpleString()
     
     def __getitem__(self,position):
         return self.hands[position]
@@ -99,14 +99,15 @@ class HandsCard():
 
 class SevenCard():
 
-    levelTable={1:'高牌',2:'一对',3:'两对',4:'三条',5:'顺子',6:'同花',7:'葫芦',8:'四条',9:'同花顺'}
+    levelTable={0:'非高牌',1:'高牌',2:'一对',3:'两对',4:'三条',5:'顺子',6:'同花',7:'葫芦',8:'四条',9:'同花顺'}
 
     def __init__(self,arr=[]):
         self.arr=arr
         self.maxValue=0
         self.value=0
         self.levelText=self.levelTable[1]
-        self.lavel=0
+        self.level=0
+        self.win=False
         self.handsList=[]
 
     def getCardLevelText(self):

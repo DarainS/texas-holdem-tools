@@ -11,7 +11,7 @@ Axo2=['AKo','AQo','AJo','ATo','A9o','A8o','A7o','A6o','A5o','A4o','A3o','A2o']
 Kxs={'KQs':10.3,'KJs':12.2,'KTs':14.8,'K9s':22/8,'K8s':25.2,'K7s':25.5,'K6s':27,'K5s':28.5,'K4s':29.7,'K3s':31.8,'K2s':32.1}
 Kxo={'KQo':16.9,'KJo':20.8,'KTo':24.6,'K9o':26.7,'K8o':29.4,'K7o':31.5,'K6o':33.3,'K5o':34.5,'K4o':37.3,'K3o':39.1,'K2o':40.6}
 Qxs={'QJs':21.1,'QTs':24.9,'Q9s':28.2,'Q8s':32.4,'Q7s':37.6,'Q6s':38.2,'Q5s':39.7,'Q4s':41.8,'Q3s':43.0,'Q2s':44.8}
-Qxo={'QJs':21.1,'QTs':24.9,'Q9s':28.2,'Q8s':32.4,'Q7s':37.6,'Q6s':38.2,'Q5s':39.7,'Q4s':41.8,'Q3s':43.0,'Q2s':44.8}
+Qxo={}
 
 Jxs={'JTs':25.8,'J9s':33.6,'J8s':39.4,'J7s':43.6,'J6s':49,'J5s':49.6,'J4s':50.8,'J3s':54.1,'J2s':55.7}
 Jxo={'JTo':36.3,'J9o':42.7,'J8o':47.8,'J7o':51.7,'J6o':56.9,'J5o':59.9,'J4o':61.7,'J3o':65.3,'J2o':69.5}
@@ -43,7 +43,7 @@ sc1=['AKs','KQs','QJs','JTs','T9s','98s','87s','76s','65s','54s','43s','32s']
 
 sc2=['AQs','KJs','QTs','J9s','T8s','97s','86s','75s','64s','53s','42s']
 
-allHands=[pair,Axs,Axo,Kxs,Kxo,Qxs,Qxo,Jxs,Jxo,Txs,Txo,x9s,x9o,x8s,x8o,x7s,x7o,x6s,x6o,x5s,x5o,x4s,x4o,x3s,x3o]
+allHands=[pair.keys(),Axs.keys(),Axo.keys(),Kxs.keys(),Kxo.keys(),Qxs.keys(),Qxo.keys(),Jxs.keys(),Jxo.keys(),Txs.keys(),Txo.keys(),x9s.keys(),x9o.keys(),x8s.keys(),x8o.keys(),x7s.keys(),x7o.keys(),x6s.keys(),x6o.keys(),x5s.keys(),x5o.keys(),x4s.keys(),x4o.keys(),x3s.keys(),x3o.keys()]
 
 
 
@@ -69,17 +69,15 @@ def updateHandsRank(db=mongo.c5p2r169db,allHands=allHands):
         )
 
 
-def getRangeHands(l=169):
-    if l==170 or l==169:
-        res=[]
-        for type in allHands:
-            for key in type:
-                res.append(key)
-        return res
+def getRangeHands(l=165):
+    if l>=166:
+        l=169
     db=mongo.generateDB(rangee=str(l))
     res=db.find({}).sort([('winRate',-1)])
-    return res
-
+    result=[]
+    for data in res:
+        result.append(data['hands'])
+    return result
 
 def _expandPair(s):
     result=[]
@@ -131,7 +129,7 @@ def reduceHands(fromRange=165,step=5):
     return result[0:length]
 
 def main():
-    ls=(getRangeHands(90))
+    ls=(getRangeHands(80))
     for i in ls:
         print("'"+i['hands']+"'",end=',')
     # reduceHands(fromRange=165)
@@ -140,6 +138,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-c5p2r90=['AA','KK','QQ','JJ','AKs','TT','AKo','AQs','AQo','AJs','99','AJo','ATs','88','A8s','A9s','ATo','A7s','KQs','A9o','KJs','A5s','77','A6s','KQo','66','A8o','A4s','KTs','KJo','A3s','A7o','A6o','A2s','A5o','55','KTo','K8s','A3o',
-'44','A4o','A2o','K9s','K9o','K6s','QJs','33','QTs','K8o','QJo','K7o','K5s','QTo','K4s','K7s','JTs','K2s','K3s','Q9s','K5o','22','K6o','K4o','Q8s','K3o','Q9o','J9s','JTo','T9s','Q7s','Q5s','K2o','Q8o','Q6s','J8s','Q4s','J9o'
-,'98s','Q7o','87s','Q6o','J7s','76s','T8s','Q3s','T9o','T7s','Q5o','Q2s','Q4o',]
+c5p2r90=['AA','KK','QQ','JJ','AKs','TT','AKo','AQs','AQo','AJs','99','AJo','ATs','88','A8s','A9s','ATo','A7s','KQs','A9o','KJs','A5s','77','A6s','KQo','66','A8o','A4s','KTs','KJo','A3s','A7o','A2s','A5o','55','KTo','K8s',
+'44','A4o','A2o','K9s','K9o','K6s','QJs','33','QTs','K8o','QJo','QTo','K7s','JTs','Q9s','22','Q8s','Q9o','J9s','JTo','T9s','Q8o','J8s','J9o'
+,'98s','Q7o','87s','Q6o','J7s','76s','T8s','Q3s','T9o','T7s',]
