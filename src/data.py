@@ -85,20 +85,11 @@ def topHandsResult(k=0.25):
     return handsResult
 
 
-<<<<<<< HEAD
-def autoReduceRange(cur=170,step=5,limit=1000000,target=80):
-=======
 def autoReduceRange(cur=170,step=5,limit=300000,target=50,postfix=''):
->>>>>>> cfd7b3e9f0e22a7b32eff4cfccfdb591f3c8cb19
     ls2=hands_range.getRangeHands(cur)
     while True:
         db=mongo.generateDB(rangee=str(cur))
         r=db.find_one({'hands':'AA'})
-<<<<<<< HEAD
-        if cur<=target:
-            return
-=======
->>>>>>> cfd7b3e9f0e22a7b32eff4cfccfdb591f3c8cb19
         if r and r['totalNum']>=limit:
             ls2=hands_range.reduceHands(cur)
             cur-=step
@@ -121,11 +112,7 @@ def updateResultStatisData(handsRange=170,step=5,limit=1000000,target=80,postfix
 
 def main():
     # topHandsResult(k=0.5)
-<<<<<<< HEAD
-    autoReduceRange()
-=======
     updateResultStatisData()    
->>>>>>> cfd7b3e9f0e22a7b32eff4cfccfdb591f3c8cb19
     # cProfile.run('handsWinNumForRange(hands_range.r165)')
     # autoReduceRange()
 if __name__ == '__main__':
