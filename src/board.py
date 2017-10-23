@@ -54,7 +54,21 @@ class ResultStatis():
             'winRate':.0,
         }
 
-    resultTemplete={1:None,2:None,3:None,4:None,5:None,6:None,7:None,8:None,9:None}
+    resultTemplete={'0':{'name': '非高牌', 'level': 0, 'num': 0, 'winNum': 0, 'winRate': 0.0},'1':{'name': '高牌', 'level': 1, 'num': 0, 'winNum': 0, 'winRate': 0.0},'2':{'name': '一对', 'level': 2, 'num': 0, 'winNum': 0, 'winRate': 0.0},'3':{'name': '两对', 'level': 3, 'num': 0, 'winNum': 0, 'winRate': 0.0}, '4':{'name': '三条', 'level': 4, 'num': 0, 'winNum': 0, 'winRate': 0.0},  '5':{'name': '顺子', 'level': 5, 'num': 0, 'winNum': 0, 'winRate': 0.0}, '6':{'name': '同花', 'level': 6, 'num': 0, 'winNum': 0, 'winRate': 0.0},  '7':{'name': '葫芦', 'level': 7, 'num': 0, 'winNum': 0, 'winRate': 0.0}, '8':{'name': '四条', 'level': 8, 'num': 0, 'winNum': 0, 'winRate': 0.0}, '9':{'name': '同花顺', 'level': 9, 'num': 0, 'winNum': 0, 'winRate': 0.0}}
+
+    resultTemplete={
+        'hands':None,'totalNum':0,'winNum':0,'winRate':0.0,
+        'name0':'非高牌','num0':0,'winNum0':0,'winRate0':0.0,
+        'name1':'高牌','num1':0,'winNum1':0,'winRate1':0.0,
+        'name2':'一对','num2':0,'winNum2':0,'winRate2':0.0,
+        'name3':'两对','num3':0,'winNum3':0,'winRate3':0.0,
+        'name4':'三条','num4':0,'winNum4':0,'winRate4':0.0,
+        'name5':'顺子','num5':0,'winNum5':0,'winRate5':0.0,
+        'name6':'同花','num6':0,'winNum6':0,'winRate6':0.0,
+        'name7':'葫芦','num7':0,'winNum7':0,'winRate7':0.0,
+        'name8':'四条','num8':0,'winNum8':0,'winRate8':0.0,
+        'name9':'同花顺','num9':0,'winNum9':0,'winRate9':0.0,
+    }
 
     def __init__(self):
         self.resultMap={}
@@ -65,28 +79,29 @@ class ResultStatis():
         r.handsList=handsList
         for h in handsList:
             r.resultMap[h]=ResultStatis.resultTemplete.copy()
+            r.resultMap[h]['hands']=h.simpleString()
         return r
 
+    def fromHandsAndGenerateResultMap(handsList,totalNum=1000):
+        r=ResultStatis.fromHandsList(handsList)
+        r.generateRandomResults(totalNum=1000)
+        return r.resultMap
+    
     def _makeResultFromResults(self,results):
         for hands in self.handsList:
             resultTemp=self.resultMap[hands]
             for sev in results[hands]:
                 level=sev.level
-                dataTemp=resultTemp[level]
-                if not dataTemp:
-                    dataTemp=ResultStatis.dataTemplete.copy()
-                    dataTemp['level']=sev.level
-                    dataTemp['name']=sev.levelText
+                dataTemp=resultTemp
+                dataTemp['num'+str(level)]+=1
+                dataTemp['totalNum']+=1
+                if sev.win:
+                    dataTemp['winNum'+str(level)]+=1
+                    dataTemp['winNum']+=1
+                if level>1:
+                    dataTemp['num0']+=1
                     if sev.win:
-                        dataTemp['winNum']=1
-                    else:
-                        dataTemp['winNum']=0
-                    resultTemp[level]=dataTemp
-                else:
-                    if sev.win:
-                        dataTemp['winNum']+=1
-                    dataTemp['num']+=1
-         
+                        dataTemp['winNum0']+=1
         
 
     def generateRandomResults(self,totalNum=1000,dealToNum=5):

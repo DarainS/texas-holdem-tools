@@ -43,7 +43,7 @@ sc1=['AKs','KQs','QJs','JTs','T9s','98s','87s','76s','65s','54s','43s','32s']
 
 sc2=['AQs','KJs','QTs','J9s','T8s','97s','86s','75s','64s','53s','42s']
 
-allHands=[pair,Axs,Axo,Kxs,Kxo,Qxs,Qxo,Jxs,Jxo,Txs,Txo,x9s,x9o,x8s,x8o,x7s,x7o,x6s,x6o,x5s,x5o,x4s,x4o,x3s,x3o]
+allHands=[pair.keys(),Axs.keys(),Axo.keys(),Kxs.keys(),Kxo.keys(),Qxs.keys(),Qxo.keys(),Jxs.keys(),Jxo.keys(),Txs.keys(),Txo.keys(),x9s.keys(),x9o.keys(),x8s.keys(),x8o.keys(),x7s.keys(),x7o.keys(),x6s.keys(),x6o.keys(),x5s.keys(),x5o.keys(),x4s.keys(),x4o.keys(),x3s.keys(),x3o.keys()]
 
 
 
@@ -70,10 +70,14 @@ def updateHandsRank(db=mongo.c5p2r169db,allHands=allHands):
 
 
 def getRangeHands(l=165):
+    if l>=166:
+        l=169
     db=mongo.generateDB(rangee=str(l))
     res=db.find({}).sort([('winRate',-1)])
-    return res
-
+    result=[]
+    for data in res:
+        result.append(data['hands'])
+    return result
 
 def _expandPair(s):
     result=[]
@@ -134,6 +138,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-c5p2r90=['AA','KK','QQ','JJ','AKs','TT','AKo','AQs','AQo','AJs','99','AJo','ATs','88','A8s','A9s','ATo','A7s','KQs','A9o','KJs','A5s','77','A6s','KQo','66','A8o','A4s','KTs','KJo','A3s','A7o','A6o','A2s','A5o','55','KTo','K8s','A3o',
-'44','A4o','A2o','K9s','K9o','K6s','QJs','33','QTs','K8o','QJo','K7o','K5s','QTo','K4s','K7s','JTs','K2s','K3s','Q9s','K5o','22','K6o','K4o','Q8s','K3o','Q9o','J9s','JTo','T9s','Q7s','Q5s','K2o','Q8o','Q6s','J8s','Q4s','J9o'
-,'98s','Q7o','87s','Q6o','J7s','76s','T8s','Q3s','T9o','T7s','Q5o','Q2s','Q4o',]
+c5p2r90=['AA','KK','QQ','JJ','AKs','TT','AKo','AQs','AQo','AJs','99','AJo','ATs','88','A8s','A9s','ATo','A7s','KQs','A9o','KJs','A5s','77','A6s','KQo','66','A8o','A4s','KTs','KJo','A3s','A7o','A2s','A5o','55','KTo','K8s',
+'44','A4o','A2o','K9s','K9o','K6s','QJs','33','QTs','K8o','QJo','QTo','K7s','JTs','Q9s','22','Q8s','Q9o','J9s','JTo','T9s','Q8o','J8s','J9o'
+,'98s','Q7o','87s','Q6o','J7s','76s','T8s','Q3s','T9o','T7s',]
