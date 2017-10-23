@@ -73,6 +73,11 @@ def autoReduceRange(cur=160,step=5,limit=300000,target=50,postfix=''):
             continue
         updateHandsWinNumForRange(ls2)
 
+def updateResultStatisData(handsRange=80):
+    ls=hands_range.getRangeHands(handsRange)
+    while True:
+        db=mongo.generateDB(rangee=str(cur),pos)
+
 def main():
     # topHandsResult(k=0.5)
     autoReduceRange()    

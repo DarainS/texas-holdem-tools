@@ -125,7 +125,7 @@ def reduceHands(fromRange=165,step=5):
     return result[0:length]
 
 def main():
-    ls=(getRangeHands(90))
+    ls=(getRangeHands(80))
     for i in ls:
         print("'"+i['hands']+"'",end=',')
     # reduceHands(fromRange=165)

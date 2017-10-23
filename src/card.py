@@ -106,7 +106,8 @@ class SevenCard():
         self.maxValue=0
         self.value=0
         self.levelText=self.levelTable[1]
-        self.lavel=0
+        self.level=0
+        self.win=False
         self.handsList=[]
 
     def getCardLevelText(self):
