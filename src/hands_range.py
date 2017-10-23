@@ -69,7 +69,7 @@ def updateHandsRank(db=mongo.c5p2r169db,allHands=allHands):
         )
 
 
-def getRangeHands(l=160):
+def getRangeHands(l=165):
     db=mongo.generateDB(rangee=str(l))
     res=db.find({}).sort([('winRate',-1)])
     return res
