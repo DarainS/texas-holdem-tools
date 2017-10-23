@@ -39,6 +39,7 @@ def insertMapData(db,dataMap):
         data=dataMap[key]
         if not r:
             for i in range(0,10):
+                data['rate'+str(i)]=data['num'+str(i)]/ data['totalNum']
                 if data['num'+str(i)]!=0:
                     data['winRate'+str(i)]=data['winNum'+str(i)]/data['num'+str(i)]
             db.insert_one(data)
@@ -49,6 +50,7 @@ def insertMapData(db,dataMap):
             for i in range(0,10):
                 data['winNum'+str(i)]+=r['winNum'+str(i)]
                 data['num'+str(i)]+=r['num'+str(i)]
+                data['rate'+str(i)]=data['num'+str(i)]/ data['totalNum']
                 if data['num'+str(i)]!=0:
                     data['winRate'+str(i)]=data['winNum'+str(i)]/data['num'+str(i)]
             db.replace_one({'hands':key.simpleString()},data,True)
@@ -56,7 +58,6 @@ def insertMapData(db,dataMap):
 
 def updateHandsWinNumForRange(handsList,db,totalNum=1000,toDealNum=5):
     realRange=hands_range.expandRangeToReal(handsList)
-    print(time.time(),len(handsList))
     for i in range(0,100):
         dataList=[]
         hands1=HandsCard.fromString(random.choice(realRange))
@@ -97,14 +98,16 @@ def autoReduceRange(cur=170,step=5,limit=300000,target=50,postfix=''):
 
 def updateResultStatisData(handsRange=170,step=5,limit=1000000,target=80,postfix=''):
     ls=hands_range.getRangeHands(handsRange)
+    t1=time.time()
     while True:
         db=mongo.generateDB(rangee=str(handsRange),postfix='NoneHigh')
-        # print(db)
         r=db.find_one({'hands':'AA'})
         if r and r['totalNum']>=limit:
             ls=hands_range.reduceHands(handsRange)
             handsRange-=step
             continue
+        print('%.1f'%(time.time()-t1),len(ls))
+        t1=time.time()
         updateHandsWinNumForRange(ls,db)
 
 def main():

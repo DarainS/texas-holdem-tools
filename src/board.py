@@ -58,16 +58,16 @@ class ResultStatis():
 
     resultTemplete={
         'hands':None,'totalNum':0,'winNum':0,'winRate':0.0,
-        'name0':'非高牌','num0':0,'winNum0':0,'winRate0':0.0,
-        'name1':'高牌','num1':0,'winNum1':0,'winRate1':0.0,
-        'name2':'一对','num2':0,'winNum2':0,'winRate2':0.0,
-        'name3':'两对','num3':0,'winNum3':0,'winRate3':0.0,
-        'name4':'三条','num4':0,'winNum4':0,'winRate4':0.0,
-        'name5':'顺子','num5':0,'winNum5':0,'winRate5':0.0,
-        'name6':'同花','num6':0,'winNum6':0,'winRate6':0.0,
-        'name7':'葫芦','num7':0,'winNum7':0,'winRate7':0.0,
-        'name8':'四条','num8':0,'winNum8':0,'winRate8':0.0,
-        'name9':'同花顺','num9':0,'winNum9':0,'winRate9':0.0,
+        'name0':'非高牌','num0':0,'rate0':.0,'winNum0':0,'winRate0':0.0,
+        'name1':'高牌','num1':0,'rate1':.0,'winNum1':0,'winRate1':0.0,
+        'name2':'一对','num2':0,'rate2':.0,'winNum2':0,'winRate2':0.0,
+        'name3':'两对','num3':0,'rate3':.0,'winNum3':0,'winRate3':0.0,
+        'name4':'三条','num4':0,'rate4':.0,'winNum4':0,'winRate4':0.0,
+        'name5':'顺子','num5':0,'rate5':.0,'winNum5':0,'winRate5':0.0,
+        'name6':'同花','num6':0,'rate6':.0,'winNum6':0,'winRate6':0.0,
+        'name7':'葫芦','num7':0,'rate7':.0,'winNum7':0,'winRate7':0.0,
+        'name8':'四条','num8':0,'rate8':.0,'winNum8':0,'winRate8':0.0,
+        'name9':'同花顺','num9':0,'rate9':.0,'winNum9':0,'winRate9':0.0,
     }
 
     def __init__(self):
