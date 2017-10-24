@@ -2,6 +2,7 @@
 # -*- coding=utf-8 -*-
 
 from pymongo import MongoClient
+import subprocess
 
 ip='localhost'
 port=27017
@@ -23,3 +24,9 @@ def getSortedData(db,key='winRate',des=-1):
     return res
 
 c5p2r169db=db['card5_player2_with_169_range']
+
+try:
+    c5p2r169db.count()
+except:
+    dockerCmd='docker run  -p 27017:27017 -d mongo mongo'
+    subprocess.call(dockerCmd, shell=True)
