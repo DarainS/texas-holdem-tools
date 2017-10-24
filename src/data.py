@@ -96,14 +96,14 @@ def autoReduceRange(cur=170,step=5,limit=300000,target=50,postfix=''):
             continue
         updateHandsWinNumForRange(ls2,db)
 
-def updateResultStatisData(handsRange=170,step=5,limit=1000000,target=80,postfix=''):
+def updateResultStatisData(handsRange=170,step=5,limit=1000000,target=80,postfix='NoneHigh'):
     ls=hands_range.getRangeHands(handsRange)
     t1=time.time()
     while True:
-        db=mongo.generateDB(rangee=str(handsRange),postfix='NoneHigh')
+        db=mongo.generateDB(rangee=str(handsRange),postfix=postfix)
         r=db.find_one({'hands':'AA'})
         if r and r['totalNum']>=limit:
-            ls=hands_range.reduceHands(handsRange)
+            ls=hands_range.reduceHands(handsRange,postfix=postfix)
             handsRange-=step
             continue
         print('%.1f'%(time.time()-t1),len(ls))
