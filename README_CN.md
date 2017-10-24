@@ -13,7 +13,7 @@ A series Tools for texas hold'em with python.
     # install mongodb
     # by Docker
     docker pull mongo
-    docker run  -p 27017:27017 -d mongo mongo 
+    and then mongo.py file would auto run mongodb by docker.
 ```
 
 ## Include
@@ -32,7 +32,7 @@ A series Tools for texas hold'em with python.
 
 ## Todo
 
-- [ ] 建立翻后result模型，数据格式为[{level:1,name:高牌,num:10,winNum:6,appearRate:0.1,winRate:0.6},...]
+- [x] 建立翻后result模型，数据格式为{level0:1,name0:高牌,num0:10,winNum0:6,rate0:0.1,winRate0:0.6,...}
 
 - [ ] 如何较好的计算一手牌的翻前强度。
 - [ ] 计算对手的range范围
