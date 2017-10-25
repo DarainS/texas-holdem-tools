@@ -1,6 +1,21 @@
 # texas-holdem-tools
 A series Tools for texas hold'em with python. 
 
+# Install
+
+```python
+    # install requirement
+    git clone https://github.com/DarainS/texas-holdem-tools
+    cd ./texas-holdem-tools
+    pip3 install -r requirement.txt
+```
+```python
+    # install mongodb
+    # by Docker
+    docker pull mongo
+    and then mongo.py file would auto run mongodb by docker.
+```
+
 ## Include
 
 1. The comparetor of cards strength.
