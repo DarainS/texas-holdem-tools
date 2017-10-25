@@ -32,7 +32,8 @@ A series Tools for texas hold'em with python.
 
 ## Todo
 
-
+- [ ] 考虑range的数据结构。
+    - 翻前range：Axs,22+,Kxs,54s+,97s+等
 - [ ] 如何较好的计算特定手牌的强度。
     - 翻前强度：allin 时的胜率，主要为面对3%、5%、7%、10%、13%、17%的range的期望胜率。
     - 翻后强度，主要有中牌率、中牌强度、摊牌胜率三个参数。
