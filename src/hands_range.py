@@ -124,10 +124,10 @@ def expandRangeToReal(handsList):
             raise 'Error'
     return result
 
-def reduceHands(fromRange=165,step=5,postfix=''):
+def reduceHands(fromRange=165,step=5,winRate='winRate0',postfix=''):
     length=fromRange-step
     dbfrom=mongo.generateDB(playerNum=2,rangee=str(fromRange),postfix=postfix)
-    res=mongo.getSortedData(dbfrom,'winRate',-1)
+    res=mongo.getSortedData(dbfrom,winRate,-1)
     result=[]
     for data in res:
         result.append(data['hands'])
