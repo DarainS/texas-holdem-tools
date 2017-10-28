@@ -35,7 +35,7 @@ A series Tools for texas hold'em with python.
 - [ ] 考虑range的数据结构。
     - 翻前range：Axs,22+,Kxs,54s+,97s+等
 - [ ] 如何较好的计算特定手牌的强度。
-    - 翻前强度：allin 时的胜率，主要为面对3%、5%、7%、10%、13%、17%的range的期望胜率。
+    - allin 强度，主要为面对3%、5%、7%、10%、13%、17%的range的期望胜率。
     - 翻后强度，主要有中牌率、中牌强度、摊牌胜率三个参数。
 - [ ] 计算对手的range范围：对手中各种牌对应的组合与数目
 - [ ] 面对对手的range范围的胜率
@@ -43,3 +43,9 @@ A series Tools for texas hold'em with python.
 ## Finish
 
 - [x] 建立翻后result模型，数据格式为{level0:1,name0:高牌,num0:10,winNum0:6,rate0:0.1,winRate0:0.6,...}
+
+## AI base Reforce Learning
+1. 构建一个德扑的完整游戏
+2. AI对所有的行为随机生成一个概率作为初始值
+3. 对于每局比赛的收益加入到节点数据
+4. 训练，查看训练结果
