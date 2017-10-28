@@ -92,16 +92,18 @@ def reduceHands(fromRange=165,step=5,postfix=''):
 
     # 22+,AJs+,AQo,87s+,QTo+
 def makeRanges(s='22+'):
-    result=set()
+    result=[]
     s=s.replace(' ','')
     if not ',' in s:
         s+=','
     for s1 in s.split(','):
+        s1=s1.replace('+','')
         for type in allHandsType:
-            index=type.index(s1[0:2])
-            if index>0:
+            if s1 in type:
+                index=type.index(s1)
                 for hands in type[0:index+1]:
-                    result.add(hands)
+                    if hands not in result:
+                        result.append(hands)
     return result
 
 
