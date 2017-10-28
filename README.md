@@ -13,7 +13,7 @@ A series Tools for texas hold'em with python.
     # install mongodb
     # by Docker
     docker pull mongo
-    and then mongo.py file would auto run mongodb by docker.
+    # and then mongo.py file would auto run mongodb by docker.
 ```
 
 ## Include

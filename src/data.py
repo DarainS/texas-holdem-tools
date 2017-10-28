@@ -112,7 +112,7 @@ def updateResultStatisData(handsRange=170,step=5,limit=1000000,target=80,postfix
 
 def main():
     # topHandsResult(k=0.5)
-    updateResultStatisData()    
+    updateResultStatisData()
     # cProfile.run('handsWinNumForRange(hands_range.r165)')
     # autoReduceRange()
 if __name__ == '__main__':
