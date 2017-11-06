@@ -56,15 +56,19 @@ def insertMapData(db,dataMap):
             db.replace_one({'hands':key.simpleString()},data,True)
 
 
-def updateHandsWinNumForRange(handsList,db,totalNum=1000,toDealNum=5):
+def updateHandsWinNumForRange(handsList,playerNum,db,totalNum=1000,toDealNum=5):
     realRange=hands_range.expandRangeToReal(handsList)
+    handsList=[]
+    cards=set()
     for i in range(0,100):
         dataList=[]
-        hands1=HandsCard.fromString(random.choice(realRange))
-        hands2=HandsCard.fromString(random.choice(realRange))
-        if hands2[0] in hands1 or hands2[1] in hands1:
-            continue
-        handsList=[hands1,hands2]
+        for n in range(0,playerNum):
+            hands=None
+            while hands==None or hands[0] in cards or hands[1] in cards:
+                hands=HandsCard.fromString(random.choice(realRange))
+            cards.add(hands[0])
+            cards.add(hands[1])
+            handsList.append(hands)
 
         res=ResultStatis.fromHandsAndGenerateResultMap(handsList,totalNum=1000)
 
@@ -96,11 +100,11 @@ def autoReduceRange(cur=170,step=5,limit=300000,target=50,postfix=''):
             continue
         updateHandsWinNumForRange(ls2,db)
 
-def updateResultStatisData(handsRange=170,step=5,limit=1000000,target=80,postfix='NoneHigh'):
+def updateResultStatisData(handsRange=170,playerNum=2,step=5,limit=1000000,target=80,postfix='NoneHigh'):
     ls=hands_range.getRangeHands(handsRange)
     t1=time.time()
     while True:
-        db=mongo.generateDB(rangee=str(handsRange),postfix=postfix)
+        db=mongo.generateDB(playerNum=playerNum,rangee=str(handsRange),postfix=postfix)
         r=db.find_one({'hands':'AA'})
         if r and r['totalNum']>=limit:
             ls=hands_range.reduceHands(handsRange,postfix=postfix)
@@ -108,10 +112,10 @@ def updateResultStatisData(handsRange=170,step=5,limit=1000000,target=80,postfix
             continue
         print('%.1f'%(time.time()-t1),len(ls))
         t1=time.time()
-        updateHandsWinNumForRange(ls,db)
+        updateHandsWinNumForRange(ls,playerNum,db)
 
 def main():
-    updateResultStatisData(limit=300000)
+    updateResultStatisData(playerNum=3,limit=300000)
     # cProfile.run('handsWinNumForRange(hands_range.r165)')
 
 if __name__ == '__main__':

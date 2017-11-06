@@ -1,2 +1,4 @@
 bidict
 pymongo
+
+# tensorflow

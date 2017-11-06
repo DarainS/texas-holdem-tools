@@ -34,6 +34,9 @@ class Card():
             return True
         return False
 
+    def __hash__(self):
+        return int(self.num*self.tag.__hash__())
+
     def arrayFromString(s):
         arr=[]
         s=s.strip()
