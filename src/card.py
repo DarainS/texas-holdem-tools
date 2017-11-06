@@ -35,7 +35,7 @@ class Card():
         return False
 
     def __hash__(self):
-        return int(self.num*self.tag.__hash__())
+        return self.__str__().__hash__()
 
     def arrayFromString(s):
         arr=[]

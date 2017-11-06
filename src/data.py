@@ -58,9 +58,10 @@ def insertMapData(db,dataMap):
 
 def updateHandsWinNumForRange(handsList,playerNum,db,totalNum=1000,toDealNum=5):
     realRange=hands_range.expandRangeToReal(handsList)
-    handsList=[]
-    cards=set()
+
     for i in range(0,100):
+        handsList=[]
+        cards=set()
         dataList=[]
         for n in range(0,playerNum):
             hands=None
