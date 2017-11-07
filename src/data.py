@@ -80,7 +80,7 @@ def topHandsResult(k=0.25):
     if type(k)==float:
         k=int(169*k)
     ratedb=mongo.generateDB(rangee='169')
-    res=ratedb.find({}).sort([('winRate0',-1)])
+    res=ratedb.find({}).sort([('winRate',-1)])
     handsResult=set()
     for i in range(0,k):
         hands=Card.arrayFromString(res[i]['hands'])
@@ -115,9 +115,25 @@ def updateResultStatisData(handsRange=170,playerNum=2,step=5,limit=1000000,targe
         t1=time.time()
         updateHandsWinNumForRange(ls,playerNum,db)
 
+def profileTest(handsRange=170,playerNum=2,step=5,limit=1000000,target=80,postfix='NoneHigh'):
+    ls=hands_range.getRangeHands(handsRange)
+    db=mongo.generateDB(playerNum=playerNum,rangee=str(handsRange),postfix=postfix)
+
+    updateHandsWinNumForRange(ls,playerNum,db)
+
 def main():
-    updateResultStatisData(playerNum=4,limit=300000)
+<<<<<<< Updated upstream
+    # updateResultStatisData(playerNum=4,limit=300000)
+    cProfile.run('profileTest()')
+=======
+<<<<<<< HEAD
+    # updateResultStatisData(playerNum=4,limit=300000)
+    cProfile.run('profileTest()')
+=======
+    updateResultStatisData(playerNum=3,limit=300000)
     # cProfile.run('handsWinNumForRange(hands_range.r165)')
+>>>>>>> parent of ddda361... add method in mytf.py
+>>>>>>> Stashed changes
 
 if __name__ == '__main__':
     main()

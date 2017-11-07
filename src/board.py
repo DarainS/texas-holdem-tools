@@ -14,6 +14,8 @@ class Board():
     def fromHandsList(handsList):
         b=Board()
         b.handsList=handsList
+        for hand in handsList:
+            b.deck.removeCards(hand)
         return b
 
     def generateFakeResultMap(self,dealToNum=5):
