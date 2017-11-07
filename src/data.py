@@ -122,18 +122,10 @@ def profileTest(handsRange=170,playerNum=2,step=5,limit=1000000,target=80,postfi
     updateHandsWinNumForRange(ls,playerNum,db)
 
 def main():
-<<<<<<< Updated upstream
     # updateResultStatisData(playerNum=4,limit=300000)
-    cProfile.run('profileTest()')
-=======
-<<<<<<< HEAD
-    # updateResultStatisData(playerNum=4,limit=300000)
-    cProfile.run('profileTest()')
-=======
+    # cProfile.run('profileTest()')
+
     updateResultStatisData(playerNum=3,limit=300000)
-    # cProfile.run('handsWinNumForRange(hands_range.r165)')
->>>>>>> parent of ddda361... add method in mytf.py
->>>>>>> Stashed changes
 
 if __name__ == '__main__':
     main()
