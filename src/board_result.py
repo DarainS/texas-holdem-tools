@@ -2,5 +2,6 @@
 
 from board import Board
 
+
 class BoardResult():
     pass

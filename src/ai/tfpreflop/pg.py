@@ -8,8 +8,6 @@ from keras.layers.convolutional import Convolution2D
 
 class PGAgent:
 
-    
-
     def __init__(self, state_size, action_size):
         self.state_size = state_size
         self.action_size = action_size
@@ -77,6 +75,7 @@ class PGAgent:
     def save(self, name):
         self.model.save_weights(name)
 
+
 def preprocess(I):
     I = I[35:195]
     I = I[::2, ::2, 0]
@@ -84,6 +83,7 @@ def preprocess(I):
     I[I == 109] = 0
     I[I != 0] = 1
     return I.astype(np.float).ravel()
+
 
 if __name__ == "__main__":
     env = gym.make("Pong-v0")
