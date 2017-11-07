@@ -10,10 +10,14 @@ class Card():
     table=bidict(table2)
     tags=['h','d','c','s']
 
+    cardDict={}
+
+
     def __init__(self,num,tag):
         self.num=num
         self.tag=tag
         self.symbol=self.table.inv[num]
+        self.isActive=False
 
     def __gt__(this,that):
         return this.num>that.num
@@ -38,13 +42,19 @@ class Card():
         return self.__str__().__hash__()
 
     def arrayFromString(s):
+        if len(Card.cardDict.items)==0:
+            for key in table2.keys():
+                for tag in tags:
+                    card=Card(key,tag)
+                    cardDict[str(card)]=card
+
         arr=[]
         s=s.strip()
         
         if len(s)==2:
             tagList=random.sample(Card.tags,2)
             for i in [0,1]:
-                arr.append(Card(Card.table[s[i]],tagList[i]))
+                arr.append(Card.cardDict(s[i]+tagList[i]))
             return arr
 
         if len(s)==3:
@@ -63,7 +73,7 @@ class Card():
         
         if len(s)==4:
             for i in [0,2]:
-                arr.append(Card(Card.table[s[i]],s[i+1]))
+                arr.append(Card.cardDict[s[i]+s[i+1]])
         return arr
 
 
@@ -125,20 +135,14 @@ class SevenCard():
             res+=card.__str__()+' '
         return res
 
-    def fromString(s1,s2=''):
-        s1=(s1+s2).strip()
-        arr=Card.arrayFromString(s1)
-        assert len(ls)>=5 and len(ls)<=7
-        res=SevenCard()
-        res.arr.sort(key=lambda card:card.num)
-        
-        return res
 
     def fromHands(hands,showList=[]):
-        ls=hands.hands.copy()
+        ls=hands.copy()
         ls.extend(showList)
         assert len(ls)>=5 and len(ls)<=7
         res=SevenCard()
+        for card in ls:
+            card.isActive=False
         res.arr=ls
         res.arr.sort(key=lambda card:card.num)
         return res
@@ -180,6 +184,8 @@ class SevenCard():
         if r:
             lev,mValue=r
             return (9,mValue)
+        for card in ls[-5:]:
+            card.isActive=True
         return(6,ls[-1].num,ls[-2].num,ls[-3].num,ls[-4].num,ls[-5].num)
 
     # 顺子-5
@@ -196,13 +202,26 @@ class SevenCard():
                 if nums[i-j]>=1:
                     muNum+=1
             if muNum==5:
+                for n in range(i,i-5,-1):
+                    for card in cards:
+                        if card.num==n:
+                            card.isActive=True
+                            break
+                        if n==1 and card.num==14:
+                            card.isActive=True
+                            break
                 return (5,i)
         return False
 
     def _tryResolveStraight(self,cards,numNum,tagNum):    
-        return self._testStraight(cards,numNum,tagNum)
+        r = self._testStraight(cards,numNum,tagNum)
+        if not r:
+            return False
+        _,n=r
 
-    def _tryResolveFour(self,cards,numNum,tagNum):
+        return r
+
+    def _tryResolveQuads(self,cards,numNum,tagNum):
         f=0
         for num in range(14,1,-1):
             if numNum[num]>=4:
@@ -210,8 +229,15 @@ class SevenCard():
                 break
         if f==0:
             return False
+        for card in cards:
+            if card.num==f:
+                card.isActive=True
         for num in range(14,1,-1):
             if numNum[num]>=1 and num!=f :
+                for card in cards:
+                    if card.num==num:
+                        card.isActive=True
+                        break
                 return(8,f,num)
 
     # 7
@@ -228,6 +254,15 @@ class SevenCard():
                     h=num
 
         if f>0 and h>0:
+            t=5
+            for card in cards:
+                if card.num==f:
+                    t-=1
+                    card.isActive=True
+            for card in cards:
+                if card.num==h and t>0:
+                    t-=1
+                    card.isActive=True
             return(7,f,h)
         return False
 
@@ -248,10 +283,12 @@ class SevenCard():
                     else:
                         h2=num
                         break
+        for card in cards:
+            if card.num==f or card.num==h1 or card.num==h2:
+                card.isActive=True
         return(4,f,h1,h2)
 
-     # 
-    
+    # 2
     def _tryResolvePair(self,cards,numNum,tagNum):
         p1,p2,t=0,0,0
         ticker=[]
@@ -271,6 +308,10 @@ class SevenCard():
                     break
                 if numNum[num]==1:
                     ticker.append(num)
+            for card in cards:
+                if card.num==p1 or card.num==ticker[0] or card.num==ticker[1] or card.num==ticker[2]:
+                    card.isActive=True
+                                    
             tup=(2,p1,ticker[0],ticker[1],ticker[2])
             return tup
 
@@ -279,11 +320,20 @@ class SevenCard():
                 if numNum[num]==1:
                     t=num
                     break
+            mt=True
+            for card in cards:
+                if card.num==p1 or card.num==p2:
+                    card.isActive=True
+                if mt and card.num==t:
+                    card.isActive=True
+                    mt=False
             tup=(3,p1,p2,t)
             return tup
 
     def _tryResolveHigh(self,cards,numNum,tagNum):
         t=(1,cards[-1].num,cards[-2].num,cards[-3].num,cards[-4].num,cards[-5].num)
+        for card in cards[-5:]:
+            card.isActive=True
         return t
 
     def _caculateValueFromIterator(self,iterator):
@@ -295,7 +345,7 @@ class SevenCard():
         val=int(s)
         return val
 
-    resolveMethodList=[_tryResolveStraightFlushAndFlush,_tryResolveFour,_tryResolveFullHouse,_tryResolveStraight,_tryResolveSet,_tryResolvePair,_tryResolveHigh]
+    resolveMethodList=[_tryResolveStraightFlushAndFlush,_tryResolveQuads,_tryResolveFullHouse,_tryResolveStraight,_tryResolveSet,_tryResolvePair,_tryResolveHigh]
 
     def _resolveMaxValue(self):
         cards=self.arr
@@ -305,6 +355,12 @@ class SevenCard():
         for resolve in self.resolveMethodList:
             t=resolve(self,cards,numNum,tagNum)
             if t:
+                sum=0
+                for card in cards:
+                    if card.isActive:
+                        sum+=1
+                if sum != 5:    
+                    print(sum,t)
                 return self._caculateValueFromIterator(t)
 
     def caculateAll(self):
@@ -318,15 +374,14 @@ def testAllLevelCards():
     levelSet=set([i for i  in range(1,10)])
     while len(levelSet)>0:
         deck=Deck()
-        deck.shuffle()
         cards=[]
         for i in range(0,7):
             cards.append(deck.dealOne())
         seven=SevenCard.fromHands(cards)
         seven.caculateAll()
-        if seven.cardLevel in levelSet:
+        if seven.level in levelSet:
             fs.append(seven)
-            levelSet.remove(seven.cardLevel)
+            levelSet.remove(seven.level)
 
     ls2=sorted(fs,key=lambda seven: seven.value)
     for s in ls2:
@@ -334,7 +389,7 @@ def testAllLevelCards():
 
 
 def main():
-    print(HandsCard.fromString('AA')[0])
+    testAllLevelCards()
 
 if __name__ == '__main__':
     main()
