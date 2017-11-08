@@ -104,7 +104,7 @@ def autoReduceRange(cur=170, step=5, limit=300000, target=50, postfix=''):
         updateHandsWinNumForRange(ls2, db)
 
 
-def updateResultStatisData(handsRange=170, playerNum=2, step=5, limit=1000000, target=80, postfix='NoneHigh'):
+def updateResultStatisData(handsRange=170, playerNum=2, step=5, limit=1000000, target=80, postfix='NoneHigh',toDealNum=5):
     ls = hands_range.getRangeHands(handsRange)
     t1 = time.time()
     while handsRange >= target:
@@ -123,13 +123,13 @@ def profileTest(handsRange=170, playerNum=2, step=5, limit=1000000, target=80, p
     ls = hands_range.getRangeHands(handsRange)
     db = mongo.generateDB(playerNum=playerNum, rangee=str(handsRange), postfix=postfix)
 
-    updateHandsWinNumForRange(ls, playerNum, db)
+    updateHandsWinNumForRange(ls, playerNum, db, toDealNum=toDealNum)
 
 
 def main():
     # updateResultStatisData(playerNum=4,limit=300000)
     # cProfile.run('profileTest()')
-    updateResultStatisData(playerNum=4, limit=300000)
+    updateResultStatisData(playerNum=4, toDealNum=4,limit=300000)
 
 
 if __name__ == '__main__':
