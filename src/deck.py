@@ -5,7 +5,7 @@ from card import Card, SevenCard, HandsCard
 import random
 
 
-class Deck():
+class Deck:
     numList = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
     tagList = ['d', 'h', 'c', 's']
     initCardList = []

@@ -4,12 +4,13 @@
 from bidict import bidict
 import random
 
+table2 = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13,
+          'A': 14}
+table = bidict(table2)
+tags = ['h', 'd', 'c', 's']
+
 
 class Card():
-    table2 = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13,
-              'A': 14}
-    table = bidict(table2)
-    tags = ['h', 'd', 'c', 's']
 
     cardDict = {}
 
@@ -42,7 +43,7 @@ class Card():
         return self.__str__().__hash__()
 
     def arrayFromString(s):
-        if len(Card.cardDict) == 0:
+        if len(cardDict) == 0:
             for key in Card.table.keys():
                 for tag in Card.tags:
                     card = Card(Card.table[key], tag)
