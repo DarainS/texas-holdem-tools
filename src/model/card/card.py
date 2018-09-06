@@ -11,7 +11,12 @@ TAG_INT_TABLE = bidict(_table2)
 _tags = ['h', 'd', 'c', 's']
 
 
+
+
+
 class Card(object):
+
+    CACHE_TABLE={}
 
     def __init__(self, num, tag):
         self.num = num
@@ -42,7 +47,15 @@ class Card(object):
         return self.__str__().__hash__()
 
     @staticmethod
+    def try_init_cache():
+        card_list = [Card(n, t) for n in _table2.values() for t in _tags]
+        Card.CACHE_TABLE = {c.__repr__():c for c in card_list}
+
+    @staticmethod
     def array_from_string(s):
+
+        Card.try_init_cache()
+
         arr = []
         s = s.strip()
 
@@ -109,5 +122,3 @@ class HandsCard(object):
         if self.hands[0].num == self.hands[1].num:
             suit = ''
         return self.hands[0].symbol + self.hands[1].symbol + suit
-
-
