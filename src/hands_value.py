@@ -1,7 +1,7 @@
 # -*- coding=utf-8 -*-
 
 from mongo import mongo
-from card import Card
+from model.card import Card
 
 pair = {'AA': 0.5, 'KK': 0.9, 'QQ': 1.7, 'JJ': 3.0, 'TT': 3.8, '99': 5.1, '88': 5.9, '77': 7.5, '66': 8.0, '55': 9.7,
         '44': 10.7, '33': 14.5, '22': 22.5}

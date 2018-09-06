@@ -7,7 +7,6 @@ from round_game import RoundGame
 from decimal import Decimal
 from deck import Deck
 from player import Player
-from card import SevenCard
 
 
 class GameManager():

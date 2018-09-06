@@ -2,7 +2,7 @@
 # -*- coding=utf-8 -*-
 
 from deck import Deck
-from card import Card, SevenCard
+from model.card import Card, SevenCard
 from player import Player
 import random
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-from card import Card, SevenCard, HandsCard
+from model.card import Card, SevenCard, HandsCard
 import random
 
 

@@ -1,14 +1,10 @@
 # -*- coding=utf-8 -*-
 
-from win_rate import testWinRate
-from deck import Deck
 from mongo import mongo
-from player import Player
 import random
-from card import Card, SevenCard, HandsCard
+from model.card import Card, HandsCard
 import hands_range
-import cProfile
-from board import Board, ResultStatis
+from board import ResultStatis
 import time
 
 

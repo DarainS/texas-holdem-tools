@@ -3,7 +3,7 @@
 
 import random
 
-from card import HandsCard, SevenCard
+from model.card import HandsCard, SevenCard
 from deck import Deck
 
 

@@ -3,8 +3,7 @@
 
 from decimal import Decimal
 from deck import Deck
-from player import Player
-from card import SevenCard
+from model.card import SevenCard
 
 
 def show(s):
