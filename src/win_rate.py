@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-from deck import Deck
+from model.deck import Deck
 from model.card import Card, SevenCard
 from player import Player
 import random
@@ -55,7 +55,7 @@ def caculcateWinRateBy(deck, players, totalNum=2500, toDealNum=None):
         cards.extend(showList)
         pv = [0 for i in players]
         for index, player in enumerate(players):
-            temp = SevenCard.fromHands(cards, player.hands)
+            temp = SevenCard.from_cards(cards, player.hands)
             temp.caculate_all()
             if temp.value > pv[index]:
                 pv[index] = temp.value

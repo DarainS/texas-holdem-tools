@@ -2,7 +2,7 @@
 # -*- coding=utf-8 -*-
 
 from decimal import Decimal
-from deck import Deck
+from model.deck import Deck
 from model.card import SevenCard
 
 

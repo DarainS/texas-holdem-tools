@@ -135,7 +135,7 @@ class SevenCard(object):
         return res
 
     @staticmethod
-    def fromHands(hands):
+    def from_cards(hands):
         ls = hands.hands.copy()
         assert 5 <= len(ls) <= 7
         res = SevenCard()
@@ -145,12 +145,12 @@ class SevenCard(object):
         res.arr.sort(key=lambda card: card.num)
         return res
 
-    def addShowCardAndCaculate(self, card):
+    def add_show_card_and_calculate(self, card):
         assert len(self.arr) <= 6
         self.arr.append(card)
         self.caculate_all()
 
-    def _generateNumNum(self, cards):
+    def _generate_num_num(self, cards):
         nums = {x: 0 for x in range(1, 15)}
         for card in cards:
             nums[card.num] += 1
@@ -158,17 +158,17 @@ class SevenCard(object):
                 nums[1] += 1
         return nums
 
-    def _generateTagNum(self, cards):
+    def _generate_tag_num(self, cards):
         tags = {'h': 0, 'd': 0, 'c': 0, 's': 0}
         for card in cards:
             tags[card.tag] += 1
         return tags
 
     # 同花顺-9 同花-6
-    def _tryResolveStraightFlushAndFlush(self, cards, numNum, tagNum):
+    def _try_resolve_straight_flush_and_flush(self, cards, num_num, tag_num):
         tag = None
-        for t in tagNum:
-            if tagNum[t] >= 5:
+        for t in tag_num:
+            if tag_num[t] >= 5:
                 tag = t
                 break
         if tag == None:
@@ -178,16 +178,16 @@ class SevenCard(object):
             if card.tag != tag:
                 ls.remove(card)
 
-        r = self._testStraight(ls, self._generateNumNum(ls), [])
+        r = self._test_straight(ls, self._generate_num_num(ls), [])
         if r:
-            lev, mValue = r
-            return (9, mValue)
+            lev, m_value = r
+            return (9, m_value)
         for card in ls[-5:]:
             card.isActive = True
         return (6, ls[-1].num, ls[-2].num, ls[-3].num, ls[-4].num, ls[-5].num)
 
     # 顺子-5
-    def _testStraight(self, cards, numNum, tagNum):
+    def _test_straight(self, cards, numNum, tagNum):
         nums = {x: 0 for x in range(1, 15)}
         for card in cards:
             nums[card.num] += 1
@@ -211,14 +211,14 @@ class SevenCard(object):
                 return (5, i)
         return False
 
-    def _tryResolveStraight(self, cards, numNum, tagNum):
-        r = self._testStraight(cards, numNum, tagNum)
+    def _tryResolveStraight(self, cards, num_num, tag_num):
+        r = self._test_straight(cards, num_num, tag_num)
         return r
 
-    def _tryResolveQuads(self, cards, numNum, tagNum):
+    def _try_resolve_quads(self, cards, num_num, tag_num):
         f = 0
         for num in range(14, 1, -1):
-            if numNum[num] >= 4:
+            if num_num[num] >= 4:
                 f = num
                 break
         if f == 0:
@@ -227,7 +227,7 @@ class SevenCard(object):
             if card.num == f:
                 card.isActive = True
         for num in range(14, 1, -1):
-            if numNum[num] >= 1 and num != f:
+            if num_num[num] >= 1 and num != f:
                 for card in cards:
                     if card.num == num:
                         card.isActive = True
@@ -324,7 +324,8 @@ class SevenCard(object):
             tup = (3, p1, p2, t)
             return tup
 
-    def _try_resolve_high(self, cards, numNum, tagNum):
+    @staticmethod
+    def _try_resolve_high(cards, numNum, tagNum):
         t = (1, cards[-1].num, cards[-2].num, cards[-3].num, cards[-4].num, cards[-5].num)
         for card in cards[-5:]:
             card.isActive = True
@@ -339,13 +340,13 @@ class SevenCard(object):
         val = int(s)
         return val
 
-    resolveMethodList = [_tryResolveStraightFlushAndFlush, _tryResolveQuads, _tryResolveFullHouse, _tryResolveStraight,
+    resolveMethodList = [_try_resolve_straight_flush_and_flush, _try_resolve_quads, _tryResolveFullHouse, _tryResolveStraight,
                          _tryResolveSet, _tryResolvePair, _try_resolve_high]
 
     def _resolve_max_value(self):
         cards = self.arr
-        numNum = self._generateNumNum(cards)
-        tagNum = self._generateTagNum(cards)
+        numNum = self._generate_num_num(cards)
+        tagNum = self._generate_tag_num(cards)
 
         for resolve in self.resolveMethodList:
             t = resolve(self, cards, numNum, tagNum)
@@ -365,7 +366,7 @@ class SevenCard(object):
 
 
 def test_all_level_cards():
-    from deck import Deck
+    from model.deck import Deck
     fs = []
     level_set = set([i for i in range(1, 10)])
     while len(level_set) > 0:
@@ -373,7 +374,7 @@ def test_all_level_cards():
         cards = []
         for i in range(0, 7):
             cards.append(deck.dealOne())
-        seven = SevenCard.fromHands(cards)
+        seven = SevenCard.from_cards(cards)
         seven.caculate_all()
         if seven.level in level_set:
             fs.append(seven)

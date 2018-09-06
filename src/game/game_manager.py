@@ -5,7 +5,7 @@ import sys
 sys.path.append("..")
 from round_game import RoundGame
 from decimal import Decimal
-from deck import Deck
+from model.deck import Deck
 from player import Player
 
 

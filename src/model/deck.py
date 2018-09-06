@@ -66,7 +66,7 @@ class Deck:
             showList = random.sample(self.inDeck, toDealNum)
             pv = [0 for i in self.handsList]
             for index, hands in enumerate(self.handsList):
-                temp = SevenCard.fromHands(hands, showList=showList).caculate_all()
+                temp = SevenCard.from_cards(hands, showList=showList).caculate_all()
                 if temp.value > pv[index]:
                     pv[index] = temp.value
             m = max(pv)
@@ -79,5 +79,5 @@ class Deck:
         for toDealNum in [3, 4, 5]:
             self.showList = random.sample(self.inDeck, toDealNum)
             for index, hands in enumerate(self.handsList):
-                temp = SevenCard.fromHands(hands, self.showList).caculate_all()
+                temp = SevenCard.from_cards(hands, self.showList).caculate_all()
                 self.handsValues[hands].append(temp.value)

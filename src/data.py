@@ -4,7 +4,7 @@ from mongo import mongo
 import random
 from model.card import Card, HandsCard
 import hands_range
-from board import ResultStatis
+from model.board import ResultStatis
 import time
 
 

@@ -4,7 +4,7 @@
 import random
 
 from model.card import HandsCard, SevenCard
-from deck import Deck
+from model.deck import Deck
 
 
 class Board():
@@ -27,7 +27,7 @@ class Board():
         fakeDealList = random.sample(self.deck.inDeck, toDeal)
         mvalue = 0
         for hands in self.handsList:
-            sev = SevenCard.fromHands(hands, fakeDealList)
+            sev = SevenCard.from_cards(hands, fakeDealList)
             sev.caculate_all()
             value_map[hands] = sev
             if sev.value > mvalue:
@@ -43,7 +43,7 @@ class Board():
         toDeal = dealToNum - len(showList)
         fakeDealList = random.sample(self.deck.inDeck, toDeal)
         for hands in self.handsList:
-            sev = SevenCard.fromHands(hands, fakeDealList)
+            sev = SevenCard.from_cards(hands, fakeDealList)
             sev.caculate_all()
             valueMap.append(sev)
         return valueMap
