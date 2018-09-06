@@ -2,29 +2,31 @@
 # -*- coding=utf-8 -*-
 import sys
 
-sys.path.append("..")
-from round_game import RoundGame
 from decimal import Decimal
+
+from game.round_game import RoundGame
 from model.deck import Deck
-from player import Player
+from model.player.player import Player
+
+sys.path.append("..")
 
 
-class GameManager():
+class GameManager(object):
 
     def __init__(self):
         self.deck = Deck()
         self.deck.shuffle()
-        self.roundGame = RoundGame()
+        self.round_game = RoundGame()
         self.players = []
-        self.livingPlayers = []
-        self.buttonIndex = 0
+        self.living_players = []
+        self.button_index = 0
 
-    def testRoundGame(self, playerNum=3):
+    def testRoundGame(self, player_num=3):
         players = []
-        for i in range(0, playerNum):
+        for i in range(0, player_num):
             p = Player()
             p.name = str(i)
-            p.currentMoney = Decimal('100') + i
+            p.current_money = Decimal('100') + i
             players.append(p)
         game = RoundGame()
         game.sb = Decimal('1')
@@ -40,9 +42,9 @@ class GameManager():
         game.makeResult()
 
     def nextRoundGame(self):
-        self.roundGame = RoundGame()
-        self.roundGame.dealPlayersHands()
-        self.roundGame.askBehaviours()
+        self.round_game = RoundGame()
+        self.round_game.dealPlayersHands()
+        self.round_game.askBehaviours()
 
 
 def test1():

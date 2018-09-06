@@ -28,7 +28,7 @@ class Board():
         mvalue = 0
         for hands in self.handsList:
             sev = SevenCard.from_cards(hands, fakeDealList)
-            sev.caculate_all()
+            sev.calculate_all()
             value_map[hands] = sev
             if sev.value > mvalue:
                 mvalue = sev.value
@@ -44,7 +44,7 @@ class Board():
         fakeDealList = random.sample(self.deck.inDeck, toDeal)
         for hands in self.handsList:
             sev = SevenCard.from_cards(hands, fakeDealList)
-            sev.caculate_all()
+            sev.calculate_all()
             valueMap.append(sev)
         return valueMap
 

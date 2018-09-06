@@ -3,7 +3,6 @@
 
 from decimal import Decimal
 from model.deck import Deck
-from model.card import SevenCard
 
 
 def show(s):
@@ -39,7 +38,7 @@ class RoundGame():
             for p in self.players:
                 p.hands.append(self.deck.dealOne())
         for p in self.players:
-            p.sortHands()
+            p.sort_hands()
 
     def playerBet(self, player, betNum):
         num = Decimal(str(betNum))
@@ -140,7 +139,7 @@ class RoundGame():
     def makePlayersHandsValue(self):
         for p in self.livingPlayers:
             seven = SevenCard.fromCardArray(self.deck.showList, p.hands)
-            seven.caculate_all()
+            seven.calculate_all()
             p.handsValue = seven.value
 
     def makeResult(self):

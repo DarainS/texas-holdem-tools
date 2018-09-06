@@ -3,7 +3,7 @@
 
 from model.deck import Deck
 from model.card import Card, SevenCard
-from player import Player
+from model.player.player import Player
 import random
 
 
@@ -56,7 +56,7 @@ def caculcateWinRateBy(deck, players, totalNum=2500, toDealNum=None):
         pv = [0 for i in players]
         for index, player in enumerate(players):
             temp = SevenCard.from_cards(cards, player.hands)
-            temp.caculate_all()
+            temp.calculate_all()
             if temp.value > pv[index]:
                 pv[index] = temp.value
 
@@ -94,7 +94,7 @@ def testWinRate(list, showCards='', totalNum=1000, toDealNum=None):
     winNum = caculcateWinRateBy(deck, players, totalNum, toDealNum)
     if __name__ == '__main__':
         for player in players:
-            print('%s %.1f' % (str(player.hands[0]) + str(player.hands[1]), player.winRate * 100) + '%', end='  ')
+            print('%s %.1f' % (str(player.hands[0]) + str(player.hands[1]), player.win_rate * 100) + '%', end='  ')
     return winNum
 
 
