@@ -8,7 +8,6 @@ import random
 class Deck:
     numList = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
     tagList = ['d', 'h', 'c', 's']
-    initCardList = []
 
     for num in numList:
         for tag in tagList:
@@ -36,7 +35,7 @@ class Deck:
     def fromSampleHandsStrings(strList):
         deck = Deck()
         for s in strList:
-            h = HandsCard.fromString(s)
+            h = HandsCard.from_string(s)
             deck.removeCards(h)
         return deck
 
@@ -67,7 +66,7 @@ class Deck:
             showList = random.sample(self.inDeck, toDealNum)
             pv = [0 for i in self.handsList]
             for index, hands in enumerate(self.handsList):
-                temp = SevenCard.fromHands(hands, showList=showList).caculateAll()
+                temp = SevenCard.fromHands(hands, showList=showList).caculate_all()
                 if temp.value > pv[index]:
                     pv[index] = temp.value
             m = max(pv)
@@ -80,5 +79,5 @@ class Deck:
         for toDealNum in [3, 4, 5]:
             self.showList = random.sample(self.inDeck, toDealNum)
             for index, hands in enumerate(self.handsList):
-                temp = SevenCard.fromHands(hands, self.showList).caculateAll()
+                temp = SevenCard.fromHands(hands, self.showList).caculate_all()
                 self.handsValues[hands].append(temp.value)

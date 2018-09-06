@@ -36,7 +36,7 @@ def insertDataList(db, dataList):
 def insertMapData(db, dataMap):
     for key in dataMap.keys():
         r = db.find_one({
-            'hands': key.simpleString(),
+            'hands': key.simple_string(),
         })
         data = dataMap[key]
         if not r:
@@ -55,7 +55,7 @@ def insertMapData(db, dataMap):
                 data['rate' + str(i)] = data['num' + str(i)] / data['totalNum']
                 if data['num' + str(i)] != 0:
                     data['winRate' + str(i)] = data['winNum' + str(i)] / data['num' + str(i)]
-            db.replace_one({'hands': key.simpleString()}, data, True)
+            db.replace_one({'hands': key.simple_string()}, data, True)
 
 
 def updateHandsWinNumForRange(handsList, playerNum, db, totalNum=1000, toDealNum=5):
@@ -68,7 +68,7 @@ def updateHandsWinNumForRange(handsList, playerNum, db, totalNum=1000, toDealNum
         for n in range(0, playerNum):
             hands = None
             while hands == None or hands[0] in cards or hands[1] in cards:
-                hands = HandsCard.fromString(random.choice(realRange))
+                hands = HandsCard.from_string(random.choice(realRange))
             cards.add(hands[0])
             cards.add(hands[1])
             handsList.append(hands)
@@ -85,7 +85,7 @@ def topHandsResult(k=0.25):
     res = ratedb.find({}).sort([('winRate', -1)])
     handsResult = set()
     for i in range(0, k):
-        hands = Card.arrayFromString(res[i]['hands'])
+        hands = Card.array_from_string(res[i]['hands'])
         handsResult.add(hands)
         if __name__ == '__main__':
             print(res[i]['hands'], end=' ')

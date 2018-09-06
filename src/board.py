@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-from deck import Deck
-from card import Card, HandsCard, SevenCard
 import random
+
+from card import HandsCard, SevenCard
+from deck import Deck
 
 
 class Board():
@@ -19,22 +20,22 @@ class Board():
             b.deck.removeCards(hand)
         return b
 
-    def generateFakeResultMap(self, dealToNum=5):
-        valueMap = {}
-        showList = self.deck.showList
-        toDeal = dealToNum - len(showList)
+    def generate_fake_result_map(self, dealToNum=5):
+        value_map = {}
+        show_list = self.deck.showList
+        toDeal = dealToNum - len(show_list)
         fakeDealList = random.sample(self.deck.inDeck, toDeal)
         mvalue = 0
         for hands in self.handsList:
             sev = SevenCard.fromHands(hands, fakeDealList)
-            sev.caculateAll()
-            valueMap[hands] = sev
+            sev.caculate_all()
+            value_map[hands] = sev
             if sev.value > mvalue:
                 mvalue = sev.value
         for hands in self.handsList:
-            if valueMap[hands].value == mvalue:
-                valueMap[hands].win = True
-        return valueMap
+            if value_map[hands].value == mvalue:
+                value_map[hands].win = True
+        return value_map
 
     def generateFakeResultList(self, dealToNum=5):
         valueMap = []
@@ -43,7 +44,7 @@ class Board():
         fakeDealList = random.sample(self.deck.inDeck, toDeal)
         for hands in self.handsList:
             sev = SevenCard.fromHands(hands, fakeDealList)
-            sev.caculateAll()
+            sev.caculate_all()
             valueMap.append(sev)
         return valueMap
 
@@ -91,7 +92,7 @@ class ResultStatis():
         r.handsList = handsList
         for h in handsList:
             r.resultMap[h] = ResultStatis.resultTemplete.copy()
-            r.resultMap[h]['hands'] = h.simpleString()
+            r.resultMap[h]['hands'] = h.simple_string()
         return r
 
     def fromHandsAndGenerateResultMap(handsList, totalNum=1000):
@@ -121,14 +122,14 @@ class ResultStatis():
             results[h] = []
         for i in range(0, totalNum):
             board = Board.fromHandsList(self.handsList)
-            m = board.generateFakeResultMap(dealToNum=dealToNum)
+            m = board.generate_fake_result_map(dealToNum=dealToNum)
             for hands in self.handsList:
                 results[hands].append(m[hands])
         self._makeResultFromResults(results)
 
 
 def main():
-    handsList = [HandsCard.fromString('QsJs'), HandsCard.fromString('Ad9c')]
+    handsList = [HandsCard.from_string('QsJs'), HandsCard.from_string('Ad9c')]
     r = ResultStatis.fromHandsList(handsList)
     r.generateRandomResults()
     print(r.resultMap)

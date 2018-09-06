@@ -56,7 +56,7 @@ def caculcateWinRateBy(deck, players, totalNum=2500, toDealNum=None):
         pv = [0 for i in players]
         for index, player in enumerate(players):
             temp = SevenCard.fromHands(cards, player.hands)
-            temp.caculateAll()
+            temp.caculate_all()
             if temp.value > pv[index]:
                 pv[index] = temp.value
 
@@ -81,14 +81,14 @@ def testWinRate(list, showCards='', totalNum=1000, toDealNum=None):
     for s in list:
         p1 = Player()
         if type(s) == str:
-            p1.hands = Card.arrayFromString(s)
+            p1.hands = Card.array_from_string(s)
         elif type(s) == Player:
             p1 = s
         else:
             raise 'Error'
         players.append(p1)
     deck.removeCardsFromPlayers(players)
-    sl = Card.arrayFromString(showCards)
+    sl = Card.array_from_string(showCards)
     deck.showList.extend(sl)
     deck.removeCards(sl)
     winNum = caculcateWinRateBy(deck, players, totalNum, toDealNum)

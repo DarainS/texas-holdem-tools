@@ -141,7 +141,7 @@ class RoundGame():
     def makePlayersHandsValue(self):
         for p in self.livingPlayers:
             seven = SevenCard.fromCardArray(self.deck.showList, p.hands)
-            seven.caculateAll()
+            seven.caculate_all()
             p.handsValue = seven.value
 
     def makeResult(self):

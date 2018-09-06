@@ -4,27 +4,25 @@
 from bidict import bidict
 import random
 
-table2 = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13,
-          'A': 14}
-table = bidict(table2)
-tags = ['h', 'd', 'c', 's']
+_table2 = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13,
+           'A': 14}
+TAG_INT_TABLE = bidict(_table2)
+_tags = ['h', 'd', 'c', 's']
 
 
-class Card():
-
-    cardDict = {}
+class Card(object):
 
     def __init__(self, num, tag):
         self.num = num
         self.tag = tag
-        self.symbol = self.table.inv[num]
-        self.isActive = False
+        self.symbol = TAG_INT_TABLE.inv[num]
+        self.is_active = False
 
-    def __gt__(this, that):
-        return this.num > that.num
+    def __gt__(self, that):
+        return self.num > that.num
 
-    def __lt__(this, that):
-        return this.num < that.num
+    def __lt__(self, that):
+        return self.num < that.num
 
     def __str__(self):
         return str(self.symbol) + self.tag
@@ -42,38 +40,40 @@ class Card():
     def __hash__(self):
         return self.__str__().__hash__()
 
-    def arrayFromString(s):
-        if len(cardDict) == 0:
-            for key in Card.table.keys():
-                for tag in Card.tags:
-                    card = Card(Card.table[key], tag)
-                    Card.cardDict[str(card)] = card
+    @staticmethod
+    def array_from_string(s):
+        if len(Card.cache) == 0:
+            for key in TAG_INT_TABLE.keys():
+                for tag in _tags:
+                    card = Card(TAG_INT_TABLE[key], tag)
+                    Card.cache[str(card)] = card
         arr = []
         s = s.strip()
 
         if len(s) == 2:
-            tagList = random.sample(Card.tags, 2)
+            tag_list = random.sample(_tags, 2)
             for i in [0, 1]:
-                arr.append(Card.cardDict(s[i] + tagList[i]))
+                arr.append(Card.cache(s[i] + tag_list[i]))
             return arr
 
         if len(s) == 3:
             if s[2] == 's':
-                tagList = random.sample(Card.tags, 1)
+                tag_list = random.sample(Card.tags, 1)
                 for i in [0, 1]:
-                    arr.append(Card(Card.table[s[i]], tagList[0]))
+                    arr.append(Card(Card.table[s[i]], tag_list[0]))
                 return arr
             elif s[2] == 'o':
-                tagList = random.sample(Card.tags, 2)
+                tag_list = random.sample(Card.tags, 2)
                 for i in [0, 1]:
-                    arr.append(Card(Card.table[s[i]], tagList[i]))
+                    arr.append(Card(Card.table[s[i]], tag_list[i]))
                 return arr
             else:
-                raise 'Error'
+                raise RuntimeError
 
         if len(s) == 4:
             for i in [0, 2]:
-                arr.append(Card.cardDict[s[i] + s[i + 1]])
+                arr.append(Card.cache[s[i] + s[i + 1]])
+
         return arr
 
 
@@ -83,16 +83,16 @@ class HandsCard():
         self.hands = []
         self.value = 0
 
-    def fromString(s):
+    def from_string(s):
         handsCard = HandsCard()
-        handsCard.hands = Card.arrayFromString(s)
+        handsCard.hands = Card.array_from_string(s)
         return handsCard
 
     def __str__(self):
         return str(self.hands[0]) + str(self.hands[1])
 
     def __repr__(self):
-        return self.simpleString()
+        return self.simple_string()
 
     def __getitem__(self, position):
         return self.hands[position]
@@ -100,7 +100,7 @@ class HandsCard():
     def sort(self):
         self.hands.sort(key=lambda card: card.num, reverse=True)
 
-    def simpleString(self):
+    def simple_string(self):
         assert len(self.hands) == 2
         self.sort()
         suit = 'o'
@@ -112,21 +112,21 @@ class HandsCard():
 
 
 class SevenCard():
-    levelTable = {0: '非高牌', 1: '高牌', 2: '一对', 3: '两对', 4: '三条', 5: '顺子', 6: '同花', 7: '葫芦', 8: '四条', 9: '同花顺'}
+    LEVEL_TABLE = {0: '非高牌', 1: '高牌', 2: '一对', 3: '两对', 4: '三条', 5: '顺子', 6: '同花', 7: '葫芦', 8: '四条', 9: '同花顺'}
 
     def __init__(self, arr=[]):
         self.arr = arr
         self.maxValue = 0
         self.value = 0
-        self.levelText = self.levelTable[1]
+        self.levelText = self.LEVEL_TABLE[1]
         self.level = 0
         self.win = False
         self.handsList = []
 
-    def getCardLevelText(self):
+    def get_card_level_text(self):
         assert self.value > 0
         self.level = int(str(self.value)[0])
-        self.levelText = self.levelTable[self.level]
+        self.levelText = self.LEVEL_TABLE[self.level]
         return self.levelText
 
     def __str__(self):
@@ -149,7 +149,7 @@ class SevenCard():
     def addShowCardAndCaculate(self, card):
         assert len(self.arr) <= 6
         self.arr.append(card)
-        self.caculateAll()
+        self.caculate_all()
 
     def _generateNumNum(self, cards):
         nums = {x: 0 for x in range(1, 15)}
@@ -359,9 +359,9 @@ class SevenCard():
                     print(sum, t, cards)
                 return self._caculateValueFromIterator(t)
 
-    def caculateAll(self):
+    def caculate_all(self):
         self.value = self._resolveMaxValue()
-        self.levelText = self.getCardLevelText()
+        self.levelText = self.get_card_level_text()
         return self
 
 
@@ -375,7 +375,7 @@ def testAllLevelCards():
         for i in range(0, 7):
             cards.append(deck.dealOne())
         seven = SevenCard.fromHands(cards)
-        seven.caculateAll()
+        seven.caculate_all()
         if seven.level in levelSet:
             fs.append(seven)
             levelSet.remove(seven.level)
