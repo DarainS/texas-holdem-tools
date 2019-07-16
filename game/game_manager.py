@@ -2,10 +2,11 @@
 # -*- coding=utf-8 -*-
 import sys
 
-sys.path.append("..")
 from game.round_game import RoundGame
-from deck import Deck
-from player import Player
+from model.deck import Deck
+from model.player import Player
+
+sys.path.append("..")
 
 
 class GameManager():
@@ -18,25 +19,19 @@ class GameManager():
 		self.livingPlayers = []
 		self.buttonIndex = 0
 
-	def testRoundGame(self, playerNum=3):
-		players = []
-		for i in range(0, playerNum):
+	def testRoundGame(self, player_num: int = 3) -> None:
+		self.players = []
+		for i in range(0, player_num):
 			p = Player()
 			p.name = str(i)
 			p.currentMoney = 100 + i
-			players.append(p)
+			self.players.append(p)
 		game = RoundGame()
 		game.sb = 1
 		game.bb = 2
-		game.players = players
+		game.players = self.players
 		game.begin()
 
-		game.goPreFlop()
-		if not game.isShowDownTime():
-			game.goFlop()
-		game.goTurn()
-		game.goRiver()
-		game.makeResult()
 
 	def nextRoundGame(self):
 		self.roundGame = RoundGame()

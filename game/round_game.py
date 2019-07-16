@@ -2,13 +2,23 @@
 # -*- coding=utf-8 -*-
 
 from decimal import Decimal
+from enum import Enum
 
-from card import SevenCard
-from deck import Deck
+from model.card import SevenCard
+from model.deck import Deck
+from model.player import Player
 
 
 def show(s):
 	print(s)
+
+
+class RoundStatus(Enum):
+	NotInGame = 0
+	PreFlop = 1
+	Flop = 2
+	Turn = 3
+	River = 4
 
 
 class RoundGame():
@@ -19,17 +29,20 @@ class RoundGame():
 	def __init__(self):
 		self.players = []
 		self.livingPlayers = []
+		self.activePlayers = []
 		self.smallBlind = Decimal()
 		self.bigBlind = Decimal()
 		self.pot = {}
 		self.buttonIndex = 0
 		self.deck = Deck()
+		self.status = RoundStatus.NotInGame
 
 	def begin(self):
 		for p in self.players:
 			self.pot[p] = 0
 		self.livingPlayers = self.players.copy()
 		self.activePlayers = self.players.copy()
+		self.goPreFlop()
 
 	def gameEnd(self):
 		for p in self.players:
@@ -42,13 +55,13 @@ class RoundGame():
 		for p in self.players:
 			p.sortHands()
 
-	def playerBet(self, player, betNum):
-		num = Decimal(str(betNum))
+	def playerBet(self, player: Player, bet_num: int):
+		num = Decimal(str(bet_num))
 		player.currentMoney -= num
 		self.pot[player] += num
 
-	def playerRaise(self, player, betNum):
-		self.pot[player] += Decimal(str(betNum))
+	def playerRaise(self, player, bet_num):
+		self.pot[player] += Decimal(str(bet_num))
 
 	def playerCheck(self, player):
 		pass
@@ -118,6 +131,7 @@ class RoundGame():
 		return False
 
 	def goPreFlop(self):
+		self.status = RoundStatus.PreFlop
 		self.dealPlayersHands()
 		self.askBehaviours()
 
