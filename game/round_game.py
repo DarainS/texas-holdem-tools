@@ -6,7 +6,7 @@ from enum import Enum
 
 from model.card import SevenCard
 from model.deck import Deck
-from model.player import Player
+from game.player import Player
 
 
 def show(s):
@@ -21,7 +21,7 @@ class RoundStatus(Enum):
 	River = 4
 
 
-class RoundGame():
+class RoundGame(object):
 	"""
 		pot 算法：记录每个玩家的筹码投入量，然后从高到低计算 value ，玩家获得小于等于其最大筹码数的其他玩家的筹码。
 	"""
@@ -36,6 +36,10 @@ class RoundGame():
 		self.buttonIndex = 0
 		self.deck = Deck()
 		self.status = RoundStatus.NotInGame
+
+		# bet
+		self.last_bet = 0
+		self.mini_raise = 0
 
 	def begin(self):
 		for p in self.players:
@@ -76,7 +80,7 @@ class RoundGame():
 	def askBehaviours(self):
 		index = self.buttonIndex
 		for i in range(len(self.livingPlayers)):
-			index = self.nextLivingPlayerIndex(index)
+			index = self.nextLivingPlayer(index)
 			if self.players[index].currentMoney <= 0:
 				continue
 			self.askPlayerBehaviour(self.players[index])
@@ -86,8 +90,7 @@ class RoundGame():
 			self.askPlayerBehaviour(self.players[index])
 
 	def askPlayerBehaviour(self, player):
-		self.playerBet(player, Decimal(1))
-		print(str(player) + " " + 'checked')
+		player.action(self)
 
 	def isThisTurnFinsh(self):
 		if len(self.pot.values()) <= 1:
@@ -103,7 +106,7 @@ class RoundGame():
 	def turnFinish(self):
 		pass
 
-	def nextLivingPlayerIndex(self, index):
+	def nextLivingPlayer(self, index):
 		id2 = index
 		while True:
 			id2 += 1
@@ -134,6 +137,8 @@ class RoundGame():
 		self.status = RoundStatus.PreFlop
 		self.dealPlayersHands()
 		self.askBehaviours()
+
+		self.goFlop()
 
 	def goFlop(self):
 		for i in range(0, 3):

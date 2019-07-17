@@ -1,3 +1,4 @@
+pypokerengine
 bidict
 pymongo
 pandas
