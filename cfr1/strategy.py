@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # author: shougang.deng@shopee.com
-from pypokerengine.api.emulator import Action
 from pypokerengine.players import BasePokerPlayer
 
 
@@ -32,8 +31,9 @@ class FishPlayer(BasePokerPlayer):  # Do not forget to make parent class as "Bas
 class FishPlayer2(BasePokerPlayer):  # Do not forget to make parent class as "BasePokerPlayer"
 
 	#  we define the logic to make an action through this method. (so this method would be the core of your AI)
-	def declare_action(self, valid_actions: Action, hole_card, round_state):
+	def declare_action(self, valid_actions: dict, hole_card: list, round_state: dict):
 		# valid_actions format => [raise_action_info, call_action_info, fold_action_info]
+
 		call_action_info = valid_actions[1]
 		action, amount = call_action_info["action"], call_action_info["amount"]
 		return action, amount  # action returned here is sent to the poker engine
