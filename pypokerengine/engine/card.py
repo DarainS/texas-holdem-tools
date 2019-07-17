@@ -37,7 +37,7 @@ class Card:
 	def __str__(self):
 		suit = self.SUIT_MAP[self.suit]
 		rank = self.RANK_MAP[self.rank]
-		return "{0}{1}".format(suit, rank)
+		return "{0}{1}".format(rank, suit)
 
 	def to_id(self):
 		rank = 1 if self.rank == 14 else self.rank

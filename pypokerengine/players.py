@@ -1,3 +1,8 @@
+from typing import Any
+
+from pypokerengine.engine.card import Card
+
+
 class BasePokerPlayer(object):
 	"""Base Poker client implementation
 
@@ -15,7 +20,7 @@ class BasePokerPlayer(object):
 	def __init__(self):
 		pass
 
-	def declare_action(self, valid_actions, hole_card, round_state):
+	def declare_action(self, valid_actions: dict, hole_card: list, round_state: dict):
 		err_msg = self.__build_err_msg("declare_action")
 		raise NotImplementedError(err_msg)
 
