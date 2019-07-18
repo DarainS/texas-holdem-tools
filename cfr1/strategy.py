@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 # author: shougang.deng@shopee.com
+import json
+
 from pypokerengine.players import BasePokerPlayer
 
 
 class FishPlayer(BasePokerPlayer):  # Do not forget to make parent class as "BasePokerPlayer"
+
+	def __init__(self, name):
+		BasePokerPlayer.__init__(self)
+		self.name = name
+		m = {}
+		with open('result.json') as f:
+			m = json.loads(f.read())
+		if m.get(name) is None:
+			m[name] = {}
+		self.values = m[name]
 
 	#  we define the logic to make an action through this method. (so this method would be the core of your AI)
 	def declare_action(self, valid_actions, hole_card, round_state):

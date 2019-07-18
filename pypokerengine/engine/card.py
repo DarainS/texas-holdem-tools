@@ -39,6 +39,12 @@ class Card:
 		rank = self.RANK_MAP[self.rank]
 		return "{0}{1}".format(rank, suit)
 
+	def __gt__(self, that):
+		return self.rank > that.rank
+
+	def __lt__(self, that):
+		return self.rank < that.rank
+
 	def to_id(self):
 		rank = 1 if self.rank == 14 else self.rank
 		num = 0

@@ -67,7 +67,9 @@ class RoundManager:
 	@classmethod
 	def __deal_holecard(self, deck, players):
 		for player in players:
-			player.add_holecard(deck.draw_cards(2))
+			cards = deck.draw_cards(2)
+			cards = sorted(cards, reverse=True)
+			player.add_holecard(cards)
 
 	@classmethod
 	def __start_street(self, state):
@@ -127,7 +129,7 @@ class RoundManager:
 	def __round_start_message(self, round_count, table):
 		players = table.seats.players
 		gen_msg = lambda idx: (
-		players[idx].uuid, MessageBuilder.build_round_start_message(round_count, idx, table.seats))
+			players[idx].uuid, MessageBuilder.build_round_start_message(round_count, idx, table.seats))
 		return reduce(lambda acc, idx: acc + [gen_msg(idx)], range(len(players)), [])
 
 	@classmethod
