@@ -5,5 +5,5 @@
 def cal_total_pot(round_state):
 	pot = round_state['pot']
 	pot_total = pot['main']['amount']
-	for p in range(pot['side']):
+	for p in pot['side']:
 		pot_total += p['amount']
