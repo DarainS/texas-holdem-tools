@@ -7,3 +7,4 @@ def cal_total_pot(round_state):
 	pot_total = pot['main']['amount']
 	for p in pot['side']:
 		pot_total += p['amount']
+	return pot_total

@@ -1,71 +1,87 @@
 # -*- coding: utf-8 -*-
 # author: shougang.deng@shopee.com
-import json
 import random
 import time
-from enum import Enum
+
+from cfr1.action import PlayerAction, ActionList
 
 rand = random.Random()
 rand.seed(int(time.time()))
 
-tree = {
-	'hands': {
-		'preflop': {
-			'player_num': {
-				('player', 'action'): {}
-			},
 
-		}
-	}
-}
-
-
-class PlayerAction(Enum):
-	Check = 0
-	Call = 1
-	Bet_0_5 = 11
-	Bet_1 = 12
-	Bet_Over = 13
-	Raise_0_5 = 21
-	Raise_1 = 22
-	Raise_Over = 23
-	Fold = 2
-
-
-ActionList = [action for action in PlayerAction]
-
-file_name = 'result.json'
-
-
-def build_tree_from_file():
-	with open(file_name) as f:
-		d = json.loads(f.read())
-		tree = ActionNode()
-		tree.__dict__ = d
-		return tree
+def build_tree_from_dict(data: dict):
+	player_num = data.get('player_num', 2)
+	my_index = data.get('my_index', 0)
+	root = ActionNode(player_num, my_index, None)
+	root.__dict__ = data.get('data')
+	return root
 
 
 class ActionNode(object):
-	def __init__(self, players: dict, my_index: int, player_action):
-		self.players = players
+	def __init__(self, player_num, my_index, player_action: PlayerAction):
+		self.player_num = player_num
 		self.index = my_index
 		self.player_action = player_action
 		self.children = {}
-		self.action_regret = {k: 0 for k in ActionList}
+		self.action_regret = {k: 1. / len(ActionList) for k in ActionList}
+
+	def dict(self):
+		mydict = self.__dict__
+		for key in mydict.keys():
+			if type(key) is not str:
+				try:
+					mydict[str(key)] = mydict[key]
+				except:
+					try:
+						mydict[repr(key)] = mydict[key]
+					except:
+						pass
+		return mydict
 
 	def add_child(self, child):
-		self.children[child.players] = child
+		self.children[child.player_action] = child
+		return child
 
-	def choose_action(self, round_state):
+	def choose_action(self, round_state: dict, valid_action: dict) -> (str, int):
 		m = 0
 		ac = PlayerAction.Call
-		for k, v in self.action_regret:
+		total_pot = round_state['total_pot']
+		call_num = 99999
+		actions = {i['action']: i for i in valid_action}
+		valid_action = actions
+		if valid_action.get('call'):
+			call_num = valid_action['call']['amount']
+		raise_num = 99999
+		max_num = 99999
+		if valid_action.get('raise'):
+			raise_num = valid_action['raise']['amount']['min']
+			max_num = valid_action['raise']['amount']['max']
+		result = ()
+		for k, v in self.action_regret.items():
 			if v <= m:
-				ac = k
-		return ac
+				if ac == PlayerAction.Check:
+					if 'check' in valid_action:
+						result = 'check', 0
+				if ac == PlayerAction.Call:
+					if 'call' in valid_action:
+						result = 'call', call_num
+				if ac == PlayerAction.AllIn:
+					stack = round_state['seats'][self.index]
+					if stack >= raise_num:
+						return 'raise', stack
+					else:
+						return 'call', stack
+				factor = 0
+				if ac == PlayerAction.Bet_0_5:
+					factor = 0.5
+				elif ac == PlayerAction.Bet_1:
+					factor = 1.0
+				elif ac == PlayerAction.Bet_2:
+					factor = 2.0
+				if factor > 0:
+					if total_pot * factor >= raise_num:
+						result = 'raise', total_pot * 0.5
+					elif total_pot * factor >= call_num:
+						result = 'call', call_num
 
-
-class ActionTree(object):
-
-	def __init__(self, hands: list):
-		self.hands = hands
+		return result
